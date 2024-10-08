@@ -166,7 +166,17 @@ input[type="text"], input[type="password"] {
     padding: 15px;
 }
 
-h2 {
-    margin-bottom: 1px; 
+.form-container h2 {
+    color: #34495e;
+    margin-top: 1px; 
     text-align: center; 
+}
+
+.form-container > form {
+    padding: 30px;
+}
+
+#login-form {
+    background-color: rgb(211, 211, 211);
+
 }
