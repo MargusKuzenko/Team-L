@@ -7,7 +7,7 @@
     margin-bottom: 10px;
     min-width: 400px;
 }
-
+ 
 .header a:last-child {
     margin-left: auto;
 }
@@ -58,7 +58,9 @@ footer {
     border-radius: 20px;
     padding: 15px;
 }
-
+.content > p {
+    font-family: 'Trebuchet MS';
+}
 .post img {
     max-width: 100%;
 }
@@ -107,7 +109,7 @@ form {
     gap: 10px;
 }
 
-textarea {
+label + #post-body {
     width: 80%;
     height: 150px;
     padding: 10px;
@@ -115,7 +117,7 @@ textarea {
     margin-bottom: 30px;
 }
 
-.file-container {
+.textarea-container ~ .file-container {
     display: flex;
     align-items: flex-start;
     gap: 10px;
