@@ -195,6 +195,7 @@ input[type="text"], input[type="password"] {
     }
     .nav {
         margin-top: 0px;
+        padding-left: 10px;
     }
     .nav:last-of-type {
         margin-bottom: 17px;
