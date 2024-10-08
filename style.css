@@ -173,7 +173,6 @@ input[type="text"], input[type="password"] {
 
 #login-form {
     background-color: rgb(211, 211, 211);
-
 }
 
 
@@ -208,14 +207,22 @@ input[type="text"], input[type="password"] {
         grid-row: 1;
     }
     .file-container {
+        gap:0px;
         flex-direction: column;
         margin: 0px;
     }
     .textarea-container {
         flex-direction: column;
     }
-    .textarea-container textarea {
+    .textarea-container ~ .file-container {
+        flex-direction: column;
+        margin-bottom: 19px;
+    }
+    .textarea-container #post-body {
         margin: 0px;
+        width: 95%;
+    }
+    #picture {
         width: 100%;
     }
 }
