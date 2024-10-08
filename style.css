@@ -5,7 +5,6 @@
     align-items: center;
     border-radius: 10px;
     margin-bottom: 10px;
-    min-width: 400px;
 }
 
 .header a:last-child {
@@ -19,7 +18,6 @@ footer {
     justify-content: center;
     border-radius: 10px;
     margin-top: 10px;
-    min-width: 400px;
 }
 
 .nav a {
@@ -85,7 +83,6 @@ footer {
     justify-content: center;
     align-items: center;
     min-height: 80vh;
-    min-width: 400px;
 }
 
 form {
@@ -103,7 +100,7 @@ form {
 
 .textarea-container {
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
     gap: 10px;
 }
 
@@ -117,7 +114,7 @@ textarea {
 
 .file-container {
     display: flex;
-    align-items: flex-start;
+    flex-direction: row;
     gap: 10px;
     margin-bottom: 45px;
 }
@@ -141,7 +138,6 @@ input[type=file]::file-selector-button:hover {
 .button-container {
     display: flex;
     justify-content: center;
-    align-items: center;
 }
 
 input[type="submit"] {
@@ -150,7 +146,6 @@ input[type="submit"] {
     -webkit-text-fill-color: white;
     padding: 10px;
     font-size: 20px;
-    width: 200px;
     align-self: center;
     transition: 0.5s;
 }
@@ -167,4 +162,47 @@ input[type="text"], input[type="password"] {
 h2 {
     margin-bottom: 20px; 
     text-align: center; 
+}
+
+@media only screen and (max-width: 415px) {
+    .form-container {
+        width: 100%;
+    }
+    .header {
+        width: 100%;
+    }
+    .posts {
+        width: 100%;
+    }
+    footer {
+        width: 100%;
+    }
+    .header{
+        display: grid;
+        grid-template-columns: auto, auto;
+    }
+    .nav {
+        margin-top: 0px;
+    }
+    .nav:last-of-type {
+        margin-bottom: 17px;
+    }
+    .nav:first-of-type:is(:last-of-type){
+        margin-bottom: 0px;
+    }
+    .header a:last-child {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .file-container {
+        flex-direction: column;
+        margin: 0px;
+    }
+    .textarea-container {
+        flex-direction: column;
+    }
+    .textarea-container textarea {
+        margin: 0px;
+        width: 100%;
+    }
 }
