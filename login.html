@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+
+        form {
+            min-height: 200px;
+        }
+
+        input[type="submit"] {
+            width: 100%; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <ul class="nav">
+            <li><a href="index.html">Home</a></li>
+        </ul>
+        <ul class="nav">
+            <li><a href="addPost.html">addPost</a></li>
+        </ul>
+        <a class="logo" href=""><img src="res/images/me.png" width="50" height="50" alt="My picture"></a>
+    </header>
+
+    <div class="form-container">
+        <form action="/login" method="POST">
+            <h2>Login</h2>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <div class="button-container">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+    </div>
+
+<footer>
+    <p><span>&copy</span> 2024 Team L | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
