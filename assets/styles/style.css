@@ -11,6 +11,15 @@
     margin-left: auto;
 }
 
+.header .logo {
+    padding: 10px;
+}
+
+.header .profile {
+    padding: 10px;
+    margin-left: auto;
+}
+
 footer {
     background-color: #a2ccea;
     display: flex;
@@ -31,10 +40,6 @@ footer {
 .nav a:hover {
     background-color: #7ebeb6;
     color: #092747;
-}
-
-.header .logo {
-    padding: 10px;
 }
 
 .nav {
@@ -202,7 +207,7 @@ input[type="text"], input[type="password"] {
         width: 100%;
     }
     .header{
-        display: flex;
+        display: grid;
         grid-template-columns: auto, auto;
     }
     .nav {
@@ -216,6 +221,10 @@ input[type="text"], input[type="password"] {
         margin-bottom: 0px;
     }
     .header a:last-child {
+        grid-column: 2;
+        grid-row: 1;
+    }
+    .header .profile {
         grid-column: 2;
         grid-row: 1;
     }
@@ -238,43 +247,6 @@ input[type="text"], input[type="password"] {
     #picture {
         width: 100%;
     }
-    .profile {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .profile-pic {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
-
-    .dropdown-content {
-        position: absolute;
-        top: 50px;
-        right: 0;
-        width: 150px;
-        background-color: white;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        display: none;
-    }
-
-    .dropdown-content p,
-    .dropdown-content button {
-        padding: 12px;
-        margin: 0;
-        border: none;
-        width: 100%;
-        text-align: left;
-        cursor: pointer;
-    }
-
-    .dropdown-content p:hover,
-    .dropdown-content button:hover {
-        background-color: #f1f1f1;
-    }
 }
 
 .profile {
@@ -294,11 +266,11 @@ input[type="text"], input[type="password"] {
 .dropdown-content {
     display: none;
     position: absolute;
-    top: 60px;
-    right: 0;
+    top: 70px;
+    right: 20px;
     background-color: white;
     min-width: 160px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     z-index: 1;
     border-radius: 5px;
 }
