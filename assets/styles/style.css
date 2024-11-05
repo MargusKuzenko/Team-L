@@ -202,7 +202,7 @@ input[type="text"], input[type="password"] {
         width: 100%;
     }
     .header{
-        display: grid;
+        display: flex;
         grid-template-columns: auto, auto;
     }
     .nav {
