@@ -14,7 +14,14 @@
         <ul class="nav">
             <li><a href="./pages/addPost.html">addPost</a></li>
         </ul>
-        <a class="logo" href=""><img src="assets/images/me.png" width="50" height="50" alt="My picture"></a>
+        <div class="profile">
+            <img src="assets/images/me.png" width="50" height="50" alt="My picture" class="profile-pic" id="profilePic">
+            <div id="dropdown" class="dropdown-content">
+                <p>John Doe</p>
+                <p>john.doe@ut.ee</p>
+                <p>logout</p>
+            </div>
+        </div>
     </header>
     <div class="posts">
         <script type="text/javascript" src="js/postHandler.js"></script>
@@ -23,5 +30,6 @@
     <footer>
         <p><span>&copy</span> 2024 Team L | All Rights Reserved</p>
     </footer>
+    <script type="text/javascript" src="js/dropdownHandler.js"></script>
 </body>
 </html>
