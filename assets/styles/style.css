@@ -69,6 +69,15 @@ footer {
     margin-bottom: 10px;
 }
 
+.post .post-header .date {
+    margin-right: auto;
+}
+
+.post .post-header p {
+    padding-left: 5px;
+    flex: 1;
+}
+
 .post .post-header img{
     max-width: 10%;
 }

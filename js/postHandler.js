@@ -11,6 +11,10 @@ const createPost = function({ post_body, img, date, likes, author}) {
     profileImage.src = 'assets/images/me.png';
     profileImage.alt = author;
     postHeader.appendChild(profileImage);
+    //Profile name
+    const profileName = document.createElement('p');
+    profileName.textContent = author;
+    postHeader.appendChild(profileName);
     //Date
     const postDate = document.createElement('div');
     postDate.classList.add('date');
