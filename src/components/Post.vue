@@ -1,5 +1,5 @@
 <template>
-  <div class="post" :key="post.id">
+  <div class="post">
     <div class="post-header">
         <img src="@/assets/images/me.png" alt="My picture">
         <p>{{ post.author }}</p>

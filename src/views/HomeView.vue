@@ -19,7 +19,8 @@ export default {
   computed: {
     posts(){
       return this.$store.state.posts
-    }},
+    }
+  },
   methods: {
     ResetLikes: function() {
     this.$store.dispatch("ResetLikesAct")
