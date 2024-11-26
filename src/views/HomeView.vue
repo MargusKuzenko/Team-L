@@ -3,7 +3,7 @@
     <div class="posts">
       <Post v-for="post in posts" :post="post"/>
     </div>
-    <button v-on:click="ResetLikes "> Reset likes </button>
+    <button v-on:click="ResetLikes"> Reset likes </button>
   </div>
 </template>
 
@@ -53,5 +53,10 @@ export default {
 
   button:hover {
     background:  #5842b9;
+  }
+  @media only screen and (max-width: 415px) {
+    .posts {
+        width: 100%;
+    }
   }
 </style>
