@@ -10,7 +10,7 @@
         <p>{{ post.post_body }}</p>
     </div>
     <div class="like">
-        <img src="@/assets/icons/heart-regular.svg">
+        <img src="@/assets/icons/heart-regular.svg" v-on:click="IncreaseLike" :class="{ liked: isLiked }">
         <p>{{ post.likes }}</p>
     </div>
   </div>
@@ -21,6 +21,20 @@ export default {
   name: 'post',
   props: {
     post: Object,
+  },
+  data() {
+    return {
+      isLiked: false,
+    };
+  },
+  methods: {
+    IncreaseLike: function() {
+        this.isLiked = true; 
+        this.$store.dispatch("IncreaseLike", this.post.id);
+        setTimeout(() => {
+            this.isLiked = false;
+        }, 200);
+    }
   }
 }
 </script>
@@ -65,5 +79,11 @@ export default {
         align-items: center;
         gap: 5px;
         width: 5%;
+    }
+    .post .like img {
+        transition: transform 0.2s ease;
+    }
+    .post .like img.liked {
+        transform: scale(1.5);
     }
 </style>

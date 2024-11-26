@@ -17,9 +17,16 @@ export default createStore({
   getters: {
   },
   mutations: {
+    IncreaseLike(state, id) {
+      const post = state.posts.find(post => post.id === id);
+      if (post) post.likes++;
+    }
   },
   actions: {
+    IncreaseLike({ commit }, id) {
+      setTimeout(function() {
+          commit("IncreaseLike", id);
+      }, 300)
+    },
   },
-  modules: {
-  }
 })
