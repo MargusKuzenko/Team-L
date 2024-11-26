@@ -98,7 +98,6 @@ export default {
 
 <style scoped>
 .signup-form-container {
-  width: 100%;
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
@@ -119,7 +118,7 @@ export default {
 
 .form-group input {
   width: 100%;
-  padding: 10px;
+  padding: 10px 0px 10px 0px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1em;
