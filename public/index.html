@@ -14,4 +14,13 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    let docTitle = document.title;
+    window.addEventListener("blur", () => {
+      document.title = "Come back 🥺";
+    })
+    window.addEventListener("focus", () => {
+      document.title = "Team-L";
+    })
+  </script>
 </html>
