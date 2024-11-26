@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <Post/>
+    <div class="posts">
+      <Post v-for="post in posts" :post="post"/>
+    </div>
     <button v-on:click="ResetLikes "> Reset likes </button>
   </div>
 </template>
@@ -14,14 +16,29 @@ export default {
   components: {
     Post
   },
+  computed: {
+    posts(){
+      return this.$store.state.posts
+    },
   methods: {
     ResetLikes: function() {
     this.$store.dispatch("ResetLikesAct")
   }}
+  },
 }
 </script>
 
-<style scoped>
+<style> 
+  .posts {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      gap: 10px;
+  }
+
 button{
 background:  rgb(31, 163, 163);
 border: 0;
