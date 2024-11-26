@@ -3,7 +3,7 @@
     <div class="posts">
       <Post v-for="post in posts" :post="post"/>
     </div>
-    <button v-on:click="ResetLikes "> Reset likes </button>
+    <button v-on:click="ResetLikes"> Reset likes </button>
   </div>
 </template>
 
@@ -19,7 +19,8 @@ export default {
   computed: {
     posts(){
       return this.$store.state.posts
-    }},
+    }
+  },
   methods: {
     ResetLikes: function() {
     this.$store.dispatch("ResetLikesAct")
@@ -53,5 +54,10 @@ export default {
 
   button:hover {
     background:  #a2ccea;
+  }
+  @media only screen and (max-width: 415px) {
+    .posts {
+        width: 100%;
+    }
   }
 </style>

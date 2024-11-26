@@ -17,6 +17,10 @@ export default createStore({
   getters: {
   },
   mutations: {
+    IncreaseLike: (state, id) => {
+      const post = state.posts.find(post => post.id === id);
+      if (post) post.likes++;
+    },
     ResetLikes: state => {
       state.posts.forEach(post => {
           post.likes = 0;
@@ -24,12 +28,15 @@ export default createStore({
   }
   },
   actions: {
+    IncreaseLike: (act, id) => {
+      setTimeout(function() {
+          act.commit("IncreaseLike", id);
+      }, 100)
+    },
     ResetLikesAct: act => {
       setTimeout(function() {
           act.commit("ResetLikes")
       }, 100)
   }
   },
-  modules: {
-  }
 })
