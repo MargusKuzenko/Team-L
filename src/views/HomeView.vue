@@ -39,7 +39,7 @@ export default {
   }
 
   button{
-    background:  rgb(31, 163, 163);
+    background:  #7ebeb6;
     border: 0;
     padding: 10px 20px 10px 20px;
     margin-top:  20px;
@@ -52,6 +52,6 @@ export default {
   }
 
   button:hover {
-    background:  #5842b9;
+    background:  #a2ccea;
   }
 </style>

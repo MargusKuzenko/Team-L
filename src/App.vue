@@ -27,6 +27,7 @@ nav {
 }
 
 nav a {
+  margin-left: 10px;
   padding: 10px 15px;
   text-transform: uppercase;
   text-align: center;
