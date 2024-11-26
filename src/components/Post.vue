@@ -84,6 +84,6 @@ export default {
         transition: transform 0.2s ease;
     }
     .post .like img.liked {
-        transform: scale(1.5);
+        transform: scale(.5);
     }
 </style>
