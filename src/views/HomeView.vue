@@ -19,12 +19,11 @@ export default {
   computed: {
     posts(){
       return this.$store.state.posts
-    },
+    }},
   methods: {
     ResetLikes: function() {
     this.$store.dispatch("ResetLikesAct")
   }}
-  },
 }
 </script>
 
@@ -39,18 +38,20 @@ export default {
       gap: 10px;
   }
 
-button{
-background:  rgb(31, 163, 163);
-border: 0;
-padding: 10px 20px 10px 20px;
-margin-top:  20px;
-margin-bottom:  20px;
-margin-right:  10px;
-color: white;
-border-radius: 20px;
-}
+  button{
+    background:  rgb(31, 163, 163);
+    border: 0;
+    padding: 10px 20px 10px 20px;
+    margin-top:  20px;
+    margin-bottom:  20px;
+    margin-right:  auto;
+    margin-left:  auto;
+    color: white;
+    border-radius: 20px;
+    display: block;
+  }
 
-button:hover {
-  background:  #5842b9;
-}
+  button:hover {
+    background:  #5842b9;
+  }
 </style>

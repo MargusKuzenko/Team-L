@@ -17,8 +17,18 @@ export default createStore({
   getters: {
   },
   mutations: {
+    ResetLikes: state => {
+      state.posts.forEach(post => {
+          post.likes = 0;
+      })
+  }
   },
   actions: {
+    ResetLikesAct: act => {
+      setTimeout(function() {
+          act.commit("ResetLikes")
+      }, 100)
+  }
   },
   modules: {
   }
