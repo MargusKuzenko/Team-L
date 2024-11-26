@@ -20,13 +20,23 @@ export default createStore({
     IncreaseLike(state, id) {
       const post = state.posts.find(post => post.id === id);
       if (post) post.likes++;
-    }
+    },
+    ResetLikes: state => {
+      state.posts.forEach(post => {
+          post.likes = 0;
+      })
+  }
   },
   actions: {
     IncreaseLike({ commit }, id) {
       setTimeout(function() {
           commit("IncreaseLike", id);
-      }, 300)
+      }, 100)
     },
+    ResetLikesAct: act => {
+      setTimeout(function() {
+          act.commit("ResetLikes")
+      }, 100)
+  }
   },
 })
