@@ -37,7 +37,7 @@ export default {
         .catch((err) => console.log(err.message));
     },
     changePost(post, e) {
-      if(!e.target.classList.contains("liked")) {
+      if(!e.target.classList.contains("liked") && !e.target.classList.contains("like")) {
         this.$router.push('/post/'+post.id)
       }
     },
@@ -49,9 +49,7 @@ export default {
       .then((data) => {
         console.log(data);
         console.log('jwt removed');
-        //console.log('jwt removed:' + auth.authenticated());
         this.$router.push("/login");
-        //location.assign("/");
       })
       .catch((e) => {
         console.log(e);
@@ -78,7 +76,6 @@ export default {
   },
   mounted() {
     this.fetchPosts();
-    console.log("mounted");
   }
 };
 </script>

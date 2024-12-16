@@ -42,19 +42,30 @@
                 .then((data) => (this.post = data))
                 .catch((err) => console.log(err.message));
             },
-            updatePost(){
-                fetch(`http://localhost:3000/posts/${this.post.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(this.post), // Send updated post data
-                }).then(this.$router.push("/")).catch((e) => console.error(e));
+            async updatePost(){
+                try {
+                    this.post.date = new Date(Date.now()).toJSON().slice(0, 10);
+                    await fetch(`http://localhost:3000/posts/${this.post.id}`, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(this.post),
+                    });
+                    this.$router.push("/");
+                } catch (err){
+                    console.error(err);
+                }
             },
-            deletePost(){
-                fetch(`http://localhost:3000/posts/${this.post.id}`, {
-                    method: "DELETE",
-                }).then(this.$router.push("/")).catch((e) => console.error(e));
+            async deletePost(){
+                try {
+                    await fetch(`http://localhost:3000/posts/${this.post.id}`, {
+                        method: "DELETE",
+                    });
+                    this.$router.push("/");
+                } catch (err){
+                    console.error(err);
+                }
             }
         },
         mounted() {

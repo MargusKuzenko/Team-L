@@ -24,14 +24,19 @@
             };
         },
         methods: {
-            submitForm() {
-                fetch("http://localhost:3000/posts", { 
-                    method: "POST",
-                    headers: {
-                    "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ body: this.post.body, date: new Date(Date.now()).toJSON().slice(0, 10)}),
-                }).then(this.$router.push("/")).catch((e) => console.error(e));
+            async submitForm() {
+                try {
+                    await fetch("http://localhost:3000/posts", { 
+                        method: "POST",
+                        headers: {
+                        "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ body: this.post.body, date: new Date(Date.now()).toJSON().slice(0, 10)}),
+                    })
+                    this.$router.push("/");
+                } catch (err){
+                    console.error(err);
+                }
             },
         },
     }
