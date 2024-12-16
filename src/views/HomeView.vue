@@ -15,6 +15,7 @@
 // @ is an alias to /src
 import auth from '../auth';
 import Post from '@/components/Post.vue';
+import AddPost from '@/views/AddPost.vue';
 
 
 export default {
@@ -39,29 +40,46 @@ export default {
       if(!e.target.classList.contains("liked")) {
         this.$router.push('/post/'+post.id)
       }
+    },
+    Logout() {
+      fetch("http://localhost:3000/auth/logout", {
+          credentials: 'include', //  Don't forget to specify this if you need cookies
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        console.log('jwt removed');
+        //console.log('jwt removed:' + auth.authenticated());
+        this.$router.push("/login");
+        //location.assign("/");
+      })
+      .catch((e) => {
+        console.log(e);
+        console.log("error logout");
+      });
+    },
+    AddPost() {
+      console.log('Navigating to AddPost');
+      this.$router.push("/addpost");
+    },
+    DeleteAll() {
+      fetch("http://localhost:3000/posts/all", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(() => {
+        console.log('Deleted all posts');
+        this.posts = [];
+      })
+      .catch((err) => {
+        console.log('Error deleting posts:', err.message);
+      });
     }
   },
   mounted() {
     this.fetchPosts();
     console.log("mounted");
-  },
-  Logout() {
-    fetch("http://localhost:3000/auth/logout", {
-        credentials: 'include', //  Don't forget to specify this if you need cookies
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      console.log('jwt removed');
-      //console.log('jwt removed:' + auth.authenticated());
-      this.$router.push("/login");
-      //location.assign("/");
-    })
-    .catch((e) => {
-      console.log(e);
-      console.log("error logout");
-    });
-  },
+  }
 };
 </script>
 
