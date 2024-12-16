@@ -27,7 +27,7 @@ const createTblQuery1 = `
 	    "id" SERIAL PRIMARY KEY,         
 	    "title" VARCHAR(200) NOT NULL,
 	    "body" VARCHAR(200) NOT NULL,
-        "author" VARCHAR(200) NOT NULL,
+        "date" DATE NOT NULL,
         "likes" INTEGER DEFAULT 0
     );`;
 
