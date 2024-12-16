@@ -15,6 +15,7 @@
 // @ is an alias to /src
 import auth from '../auth';
 import Post from '@/components/Post.vue';
+import AddPost from '@/views/AddPost.vue';
 
 
 export default {
@@ -35,11 +36,6 @@ export default {
         .then((data) => (this.posts = data))
         .catch((err) => console.log(err.message));
     },
-  },
-    mounted() {
-      this.fetchPosts();
-      console.log("mounted");
-  },
     Logout() {
       fetch("http://localhost:3000/auth/logout", {
           credentials: 'include', //  Don't forget to specify this if you need cookies
@@ -57,6 +53,28 @@ export default {
         console.log("error logout");
       });
     },
+    AddPost() {
+      console.log('Navigating to AddPost');
+      this.$router.push("/addpost");
+    },
+    DeleteAll() {
+      fetch("http://localhost:3000/posts/all", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(() => {
+        console.log('Deleted all posts');
+        this.posts = [];
+      })
+      .catch((err) => {
+        console.log('Error deleting posts:', err.message);
+      });
+    }
+  },
+  mounted() {
+    this.fetchPosts();
+    console.log("mounted");
+  }
 };
 </script>
 
@@ -114,6 +132,7 @@ button:hover {
   background: #e7e1ca;
 }
 .container {
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   gap: 40px; /* Add spacing between items */
