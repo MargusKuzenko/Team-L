@@ -137,7 +137,7 @@ app.get('/posts/:id', async(req, res) => {
         const posts = await pool.query(
             "SELECT * FROM posttable WHERE id = $1", [id]
         );
-        res.json(posts.rows);
+        res.json(posts.rows[0]);
     } catch (err) {
         console.error(err.message);
     }
