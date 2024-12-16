@@ -28,10 +28,18 @@ export default {
     formatDate(dateString) {
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
       return new Date(dateString).toLocaleDateString('en-US', options);
-  },
-    IncreaseLike: function() {
+    },
+    IncreaseLike: async function() {
         this.isLiked = true; 
-        setTimeout(() => {
+        setTimeout(async () => {
+        this.post.likes += 1;
+        await fetch(`http://localhost:3000/posts/${this.post.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(this.post), 
+        }).catch((e) => console.error(e));
             this.isLiked = false;
         }, 200);
     }
