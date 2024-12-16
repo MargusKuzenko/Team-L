@@ -120,6 +120,74 @@ app.post('/auth/login', async(req, res) => {
     }
 });
 
+app.get('/posts', async(req, res) => {
+    try {
+        const posts = await pool.query(
+            "SELECT * FROM posttable"
+        );
+        res.json(posts.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.get('/posts/:id', async(req, res) => {
+    try {
+        const { id } = req.params;
+        const posts = await pool.query(
+            "SELECT * FROM posttable WHERE id = $1", [id]
+        );
+        res.json(posts.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.post('/posts', async(req, res) => {
+    try {
+        const post = req.body;
+        const addpost = await pool.query( // insert the user and the hashed password into the database
+            "INSERT INTO posttable(body, date) values ($1, $2) RETURNING*", [post.body, post.date]
+        );
+        res.json(addpost);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+app.put('/posts/:id', async(req, res) => {
+    try {
+        const { id } = req.params;
+        const post = req.body;
+        console.log("update request has arrived");
+        const updatepost = await pool.query(
+            "UPDATE posttable SET (body, date, likes) = ($2, $3, $4) WHERE id = $1 RETURNING*", [id, post.body, post.date, post.likes]
+        );
+        res.json(updatepost);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+app.delete('/posts/all', async(req, res) => {
+    try {
+        const deleteAll = await pool.query(
+            "DELETE FROM posttable"
+        );
+        res.json(deleteAll);
+    } catch(err) {
+        console.error(err.message);
+    }
+});
+app.delete('/posts/:id', async(req, res) => {
+    try {
+        const { id } = req.params;
+        const deletepost = await pool.query(
+            "DELETE FROM posttable WHERE id = $1", [id]
+        );
+        res.json(deletepost);
+    } catch(err) {
+        console.error(err.message);
+    }
+});
 //logout a user = deletes the jwt
 app.get('/auth/logout', (req, res) => {
     console.log('delete jwt request arrived');

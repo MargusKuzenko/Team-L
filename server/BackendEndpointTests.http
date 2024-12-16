@@ -1,0 +1,36 @@
+### Add post
+
+POST http://localhost:3000/posts
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+
+{
+    "date": "2023-05-10",
+    "body": "Posts"
+}
+
+### Get all posts
+
+GET http://localhost:3000/posts
+
+### Get post by id http://localhost:3000/posts/:id
+
+GET http://localhost:3000/posts/1
+
+### Update post by id http://localhost:3000/posts/:id
+
+PUT http://localhost:3000/posts/1
+Content-Type: application/json
+Accept-Language: en-US,en;q=0.5
+
+{
+    "date": "2023-06-15",
+    "body": "new",
+    "likes": 1
+}
+
+### Delete post by id http://localhost:3000/posts/:id
+DELETE http://localhost:3000/posts/1
+
+### Delete all posts
+DELETE http://localhost:3000/posts/all
