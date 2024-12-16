@@ -23,13 +23,13 @@
       </div>
 
       <div class="form-group">
-        <button type="submit">Submit</button>
+        <button type="submit">Sign Up</button>
       </div>
     </form>
 
     <div v-if="submitted">
       <div v-if="isPasswordValid">
-        <p class="success-message">Password is valid. You can proceed!</p>
+        <p class="success-message">Password is valid. You can proceed with signing up!</p>
       </div>
       <div v-else>
         <p class="error-message">The password is not valid. Please check the following:</p>
@@ -54,7 +54,7 @@ export default {
         email: "",
         password: "",
       },
-      submitted: false, 
+      submitted: false,
     };
   },
   computed: {
@@ -91,6 +91,14 @@ export default {
   methods: {
     submitForm() {
       this.submitted = true;
+      
+      if (this.isPasswordValid) {
+        // You can proceed here, e.g., show a message or redirect
+        console.log("Form is valid! You can now proceed with backend communication.");
+        
+        // Example: For now, just show a success message
+        alert('Signup successful!'); // You can replace this with an actual redirect if needed
+      }
     },
   },
 };
@@ -147,4 +155,4 @@ button {
 ul {
   margin-top: 10px;
 }
-</style>
+</style>  
