@@ -25,7 +25,8 @@ Accept-Language: en-US,en;q=0.5
 
 {
     "date": "2023-06-15",
-    "body": "new"
+    "body": "new",
+    "likes": 1
 }
 
 ### Delete post by id http://localhost:3000/posts/:id
