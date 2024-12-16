@@ -1,13 +1,10 @@
 <template>
   <div class="post">
     <div class="post-header">
-        <img src="@/assets/images/me.png" alt="My picture">
-        <p>{{ post.author }}</p>
-        <div class="date">{{ post.date }}</div>
+        <div class="date">{{ formatDate(post.date) }}</div>
     </div>
     <div class="content">
-        <img v-if="post.img" :src="require(`@/assets/images/${post.img}`)" :alt="post.img">
-        <p>{{ post.post_body }}</p>
+        <p>{{ post.body }}</p>
     </div>
     <div class="like">
         <img src="@/assets/icons/heart-regular.svg" v-on:click="IncreaseLike" :class="{ liked: isLiked }">
@@ -28,9 +25,12 @@ export default {
     };
   },
   methods: {
+    formatDate(dateString) {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('en-US', options);
+  },
     IncreaseLike: function() {
         this.isLiked = true; 
-        this.$store.dispatch("IncreaseLike", this.post.id);
         setTimeout(() => {
             this.isLiked = false;
         }, 200);
@@ -62,7 +62,7 @@ export default {
     }
 
     .post .post-header .date {
-        margin-right: auto;
+        margin-left: auto;
     }
 
     .post .post-header p {

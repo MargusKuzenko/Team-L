@@ -2,23 +2,8 @@
   <div class="container">
     <button v-if = "authResult" @click="Logout">Logout</button>
   </div>
-  <div class="post-list" v-for="post in posts"   :key="post.index">  
-    <a :href="'/auth/post/' + post.id" class="post-link">
-      <div class="post">
-        <p class="date"> {{ formatDate(post.date) }} </p>
-        <br></br>
-        <p>{{post.body}} </p>
-        <div class="likes-container">
-          <img 
-            src="@/assets/icons/heart-regular.svg" 
-            alt="Like Icon" 
-            class="like-icon" 
-            @click="likePost(post.index)"
-          />
-          <p>{{ post.likes }}</p>
-        </div>
-      </div>
-    </a>
+  <div class="posts">
+      <Post v-for="post in posts" :post="post"/>
   </div>
   <div class="container">
     <button v-if = "authResult" @click="AddPost">Add Post</button>
@@ -29,11 +14,13 @@
 <script>
 // @ is an alias to /src
 import auth from '../auth';
+import Post from '@/components/Post.vue';
 
 
 export default {
   name: "HomeView",
   components: {
+    Post
   },
    data: function() {
     return {
@@ -42,14 +29,8 @@ export default {
     }
   }, 
   methods: {
-    likePost(){
-    },
-    formatDate(dateString) {
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString('en-US', options);
-  },
     fetchPosts() {
-      fetch('http://localhost:3000/auth/posts/')
+      fetch('http://localhost:3000/posts/')
         .then((response) => response.json())
         .then((data) => (this.posts = data))
         .catch((err) => console.log(err.message));
@@ -80,30 +61,20 @@ export default {
 </script>
 
 <style scoped>
-*{
-  margin: 0;
-  padding: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: #444;
-}
+.posts {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      gap: 10px;
+  }
 a {
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
-}
-.likes-container {
-  margin-top: 10px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.like-icon {
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    width: 5%;
 }
 body{
   margin: 20px 40px;
@@ -112,7 +83,7 @@ body{
   background: #fafafa;
   position: relative;
 }
-.post-list{
+/*.post-list{
   background: rgb(189, 212, 199);
   margin-bottom: 10px;
   display: flex;
@@ -124,9 +95,7 @@ body{
   padding: 3px 5px;
   border-radius: 10px;
 }
-p.date {
-text-align: right;
-}
+  */
 button{
   background: #FEE996;
   border:0;
@@ -143,13 +112,6 @@ button{
 }
 button:hover {
   background: #e7e1ca;
-}
-.post {
-  width: 80%;
-  position: relative;
-  padding: 10px;
-  margin: 10px auto;
-  text-align: left;
 }
 .container {
   display: flex;
