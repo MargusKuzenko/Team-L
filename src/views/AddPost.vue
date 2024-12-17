@@ -28,6 +28,7 @@
                 try {
                     await fetch("http://localhost:3000/posts", { 
                         method: "POST",
+                        credentials: 'include',
                         headers: {
                         "Content-Type": "application/json",
                         },

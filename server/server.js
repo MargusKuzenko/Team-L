@@ -28,28 +28,30 @@ app.listen(port, () => {
     console.log("Server is listening to port " + port)
 });
 
-
-// is used to check whether a user is authinticated
-app.get('/auth/authenticate', async (req, res) => {
-    console.log('authentication request has been arrived');
-    const token = req.cookies.jwt; 
-    let authenticated = false;
+const checkAuth = async (token) => {
     try {
         if (token) { 
             await jwt.verify(token, secret, (err) => { 
                 if (err) {
-                    console.log(err.message);
-                    authenticated = false;
+                    return false;
                 } else {
-                    console.log('User is authenticated');
-                    authenticated = true;
+                    return true;
                 }
-                res.send({ authenticated });
             });
         } else {
-            console.log('No token provided');
-            res.send({ authenticated });
+            return false;
         }
+    } catch (err) {
+        throw new Error(err.message)
+    }
+}
+
+// is used to check whether a user is authinticated
+app.get('/auth/authenticate', async (req, res) => {
+    try {
+        const token = req.cookies.jwt; 
+        const authenticated = checkAuth(token)
+        res.send({ authenticated });
     } catch (err) {
         console.error(err.message);
         res.status(400).send(err.message);
@@ -112,10 +114,14 @@ app.post('/auth/login', async (req, res) => {
 
 app.get('/posts', async(req, res) => {
     try {
-        const posts = await pool.query(
-            "SELECT * FROM posttable"
-        );
-        res.json(posts.rows);
+        if(checkAuth(req.cookies.jwt)) {
+            const posts = await pool.query(
+                "SELECT * FROM posttable"
+            );
+            res.json(posts.rows);
+        } else {
+            res.status(401).json({ error: "Access denied"}); 
+        }
     } catch (err) {
         console.error(err.message);
     }
@@ -123,11 +129,15 @@ app.get('/posts', async(req, res) => {
 
 app.get('/posts/:id', async(req, res) => {
     try {
-        const { id } = req.params;
-        const posts = await pool.query(
-            "SELECT * FROM posttable WHERE id = $1", [id]
-        );
-        res.json(posts.rows[0]);
+        if(checkAuth(req.cookies.jwt)) {
+            const { id } = req.params;
+            const posts = await pool.query(
+                "SELECT * FROM posttable WHERE id = $1", [id]
+            );
+            res.json(posts.rows[0]);
+        } else {
+            res.status(401).json({ error: "Access denied"}); 
+        }
     } catch (err) {
         console.error(err.message);
     }
@@ -135,45 +145,61 @@ app.get('/posts/:id', async(req, res) => {
 
 app.post('/posts', async(req, res) => {
     try {
-        const post = req.body;
-        const addpost = await pool.query( // insert the user and the hashed password into the database
-            "INSERT INTO posttable(body, date) values ($1, $2) RETURNING*", [post.body, post.date]
-        );
-        res.json(addpost);
+        if(checkAuth(req.cookies.jwt)) {
+            const post = req.body;
+            const addpost = await pool.query( // insert the user and the hashed password into the database
+                "INSERT INTO posttable(body, date) values ($1, $2) RETURNING*", [post.body, post.date]
+            );
+            res.json(addpost);
+        } else {
+            res.status(401).json({ error: "Access denied"}); 
+        }
     } catch (err) {
         console.error(err.message);
     }
 });
 app.put('/posts/:id', async(req, res) => {
     try {
-        const { id } = req.params;
-        const post = req.body;
-        console.log("update request has arrived");
-        const updatepost = await pool.query(
-            "UPDATE posttable SET (body, date, likes) = ($2, $3, $4) WHERE id = $1 RETURNING*", [id, post.body, post.date, post.likes]
-        );
-        res.json(updatepost);
+        if(checkAuth(req.cookies.jwt)) {
+            const { id } = req.params;
+            const post = req.body;
+            console.log("update request has arrived");
+            const updatepost = await pool.query(
+                "UPDATE posttable SET (body, date, likes) = ($2, $3, $4) WHERE id = $1 RETURNING*", [id, post.body, post.date, post.likes]
+            );
+            res.json(updatepost);
+        } else {
+            res.status(401).json({ error: "Access denied"}); 
+        }
     } catch (err) {
         console.error(err.message);
     }
 });
 app.delete('/posts/all', async(req, res) => {
     try {
-        const deleteAll = await pool.query(
-            "DELETE FROM posttable"
-        );
-        res.json(deleteAll);
+        if(checkAuth(req.cookies.jwt)) {
+            const deleteAll = await pool.query(
+                "DELETE FROM posttable"
+            );
+            res.json(deleteAll);
+        } else {
+            res.status(401).json({ error: "Access denied"}); 
+        }
     } catch(err) {
         console.error(err.message);
     }
 });
 app.delete('/posts/:id', async(req, res) => {
     try {
-        const { id } = req.params;
-        const deletepost = await pool.query(
-            "DELETE FROM posttable WHERE id = $1", [id]
-        );
-        res.json(deletepost);
+        if(checkAuth(req.cookies.jwt)) {
+            const { id } = req.params;
+            const deletepost = await pool.query(
+                "DELETE FROM posttable WHERE id = $1", [id]
+            );
+            res.json(deletepost);
+        } else {
+            res.status(401).json({ error: "Access denied"}); 
+        }
     } catch(err) {
         console.error(err.message);
     }

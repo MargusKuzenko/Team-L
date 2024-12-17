@@ -31,7 +31,7 @@ export default {
   }, 
   methods: {
     fetchPosts() {
-      fetch('http://localhost:3000/posts/')
+      fetch('http://localhost:3000/posts/', {credentials: 'include'})
         .then((response) => response.json())
         .then((data) => (this.posts = data))
         .catch((err) => console.log(err.message));
@@ -63,6 +63,7 @@ export default {
     DeleteAll() {
       fetch("http://localhost:3000/posts/all", {
         method: "DELETE",
+        credentials: 'include',
         headers: { "Content-Type": "application/json" },
       })
       .then(() => {

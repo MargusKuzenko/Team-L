@@ -35,6 +35,7 @@ export default {
         this.post.likes += 1;
         await fetch(`http://localhost:3000/posts/${this.post.id}`, {
             method: "PUT",
+            credentials: 'include',
             headers: {
                 "Content-Type": "application/json",
             },

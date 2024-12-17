@@ -37,7 +37,7 @@
                 }
             },
             fetchPost(id) {
-                fetch(`http://localhost:3000/posts/${id}`)
+                fetch(`http://localhost:3000/posts/${id}`, {credentials: 'include'})
                 .then((response) => response.json())
                 .then((data) => (this.post = data))
                 .catch((err) => console.log(err.message));
@@ -47,6 +47,7 @@
                     this.post.date = new Date(Date.now()).toJSON().slice(0, 10);
                     await fetch(`http://localhost:3000/posts/${this.post.id}`, {
                         method: "PUT",
+                        credentials: 'include',
                         headers: {
                             "Content-Type": "application/json",
                         },
@@ -61,6 +62,7 @@
                 try {
                     await fetch(`http://localhost:3000/posts/${this.post.id}`, {
                         method: "DELETE",
+                        credentials: 'include'
                     });
                     this.$router.push("/");
                 } catch (err){
