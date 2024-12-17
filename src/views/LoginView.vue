@@ -57,15 +57,31 @@ export default {
         credentials: 'include',
         body: JSON.stringify(this.form),
       })
-        .then((data) => {
-          console.log("Login success:", data);
-          // TODO: Add redirect or store auth token here
-          this.$router.push("/");
-        })
-        .catch((err) => {
-          console.error("Error:", err);
-        });
-    },
+      .then(async (response) => {
+        if (!response.ok) {
+          // Handle error based on status code
+          const contentType = response.headers.get("Content-Type");
+          let errorMessage = "Login failed!";
+          if (contentType && contentType.includes("application/json")) {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } else {
+            errorMessage = await response.text();
+          }
+
+          throw new Error(errorMessage);
+        }
+        return response.json(); // If response is ok, parse the JSON
+      })
+      .then((data) => {
+        console.log("Login success:", data);
+        this.$router.push("/");
+      })
+      .catch((err) => {
+        console.error("Error:", err.message);
+        alert(err.message); // Show the server's error message
+      });
+  },
     // Navigate to the signup page
     goToSignup() {
       this.$router.push("/signup");

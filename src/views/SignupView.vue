@@ -90,26 +90,47 @@ export default {
     },
   },
   methods: {
-    submitForm() {
-      this.submitted = true;
+    async submitForm() {
+    this.submitted = true;
 
-      if (this.isPasswordValid) {
-        fetch("http://localhost:3000/auth/signup", {
+    if (this.isPasswordValid) {
+      try {
+        const response = await fetch("http://localhost:3000/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           credentials: 'include',
           body: JSON.stringify(this.form),
-        })
-          .then((data) => {
-            console.log("Success:", data);
-            this.$router.push("/");
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        });
+
+        if (!response.ok) {
+          // Check Content-Type to decide how to parse the response
+          const contentType = response.headers.get("Content-Type");
+          let errorMessage = "Signup failed!";
+          if (contentType && contentType.includes("application/json")) {
+            const errorData = await response.json();
+            errorMessage = errorData.error || errorMessage;
+          } else {
+            errorMessage = await response.text(); // Fallback to plain text
+          }
+          if (errorMessage.includes("duplicate key value violates unique constraint")) {
+            alert("This email is already in use. Please try a different one.");
+          } else {
+            alert(errorMessage);
+          }
+          return;
+        }
+
+        // On successful signup
+        const data = await response.json();
+        console.log("Success:", data);
+        this.$router.push("/");
+      } catch (err) {
+        console.error("Signup error:", err);
+        alert("An unexpected error occurred: " + err.message);
       }
-    },
+    }
   },
+},
 };
 </script>
 
