@@ -1,6 +1,7 @@
 <template>
   <div class="login-form-container">
     <form @submit.prevent="submitForm">
+      <!-- Email Input -->
       <div class="form-group">
         <label for="email">Email:</label>
         <input
@@ -11,6 +12,7 @@
         />
       </div>
 
+      <!-- Password Input -->
       <div class="form-group">
         <label for="password">Password:</label>
         <input
@@ -20,12 +22,15 @@
           required
         />
       </div>
-    </form>
 
-    <div class="button-container">
+      <!-- Submit Button -->
       <div class="form-group">
         <button type="submit" class="login-button">Login</button>
       </div>
+    </form>
+
+    <!-- Sign Up Section -->
+    <div class="button-container">
       <p class="or-text">or</p>
       <button class="signup-button" @click="goToSignup">Sign Up</button>
     </div>
@@ -34,6 +39,7 @@
 
 <script>
 export default {
+  name: "LoginView",
   data() {
     return {
       form: {
@@ -43,20 +49,37 @@ export default {
     };
   },
   methods: {
+    // Handle login submission
     submitForm() {
-      // Handle login logic here (e.g., authentication)
-      console.log("Login submitted with", this.form);
-      alert('Login successful!'); // Replace with actual login logic
+      fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(this.form),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Login failed!");
+          return response.json();
+        })
+        .then((data) => {
+          alert("Login successful: " + data.message);
+          console.log("Login success:", data);
+          // TODO: Add redirect or store auth token here
+        })
+        .catch((err) => {
+          console.error("Error:", err);
+          alert("Login failed: " + err.message);
+        });
     },
+    // Navigate to the signup page
     goToSignup() {
-      // Navigate to the signup page when the button is clicked
-      this.$router.push('/signup');
+      this.$router.push("/signup");
     },
   },
 };
 </script>
 
 <style scoped>
+/* Container Styling */
 .login-form-container {
   max-width: 500px;
   margin: 0 auto;
@@ -66,6 +89,7 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Group Styling */
 .form-group {
   margin-bottom: 15px;
 }
@@ -84,10 +108,10 @@ export default {
   font-size: 1em;
 }
 
+/* Buttons */
 button {
   background-color: #7ebeb6;
   color: white;
-  align-content: center;
   border: none;
   padding: 10px 20px;
   font-size: 1em;
@@ -107,7 +131,7 @@ button {
   background-color: #6db2a3;
 }
 
-.or-text{
+.or-text {
   text-align: center;
 }
 </style>

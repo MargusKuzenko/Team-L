@@ -48,6 +48,7 @@
 
 <script>
 export default {
+  name: "SignupView",
   data() {
     return {
       form: {
@@ -91,18 +92,31 @@ export default {
   methods: {
     submitForm() {
       this.submitted = true;
-      
+
       if (this.isPasswordValid) {
-        // You can proceed here, e.g., show a message or redirect
-        console.log("Form is valid! You can now proceed with backend communication.");
-        
-        // Example: For now, just show a success message
-        alert('Signup successful!'); // You can replace this with an actual redirect if needed
+        fetch("http://localhost:3000/signup", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(this.form),
+        })
+          .then((response) => {
+            if (!response.ok) throw new Error("Signup failed!");
+            return response.json();
+          })
+          .then((data) => {
+            alert("Signup successful!");
+            console.log("Success:", data);
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Signup failed: " + err.message);
+          });
       }
     },
   },
 };
 </script>
+
 
 <style scoped>
 .signup-form-container {

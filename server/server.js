@@ -30,28 +30,25 @@ app.listen(port, () => {
 
 
 // is used to check whether a user is authinticated
-app.get('/auth/authenticate', async(req, res) => {
+app.get('/auth/authenticate', async (req, res) => {
     console.log('authentication request has been arrived');
-    const token = req.cookies.jwt; // assign the token named jwt to the token const
-    //console.log("token " + token);
-    let authenticated = false; // a user is not authenticated until proven the opposite
+    const token = req.cookies.jwt; 
+    let authenticated = false;
     try {
-        if (token) { //checks if the token exists
-            //jwt.verify(token, secretOrPublicKey, [options, callback]) verify a token
-            await jwt.verify(token, secret, (err) => { //token exists, now we try to verify it
-                if (err) { // not verified, redirect to login page
+        if (token) { 
+            await jwt.verify(token, secret, (err) => { 
+                if (err) {
                     console.log(err.message);
-                    console.log('token is not verified');
-                    res.send({ "authenticated": authenticated }); // authenticated = false
-                } else { // token exists and it is verified 
-                    console.log('author is authinticated');
+                    authenticated = false;
+                } else {
+                    console.log('User is authenticated');
                     authenticated = true;
-                    res.send({ "authenticated": authenticated }); // authenticated = true
                 }
-            })
-        } else { //applies when the token does not exist
-            console.log('author is not authinticated');
-            res.send({ "authenticated": authenticated }); // authenticated = false
+                res.send({ authenticated });
+            });
+        } else {
+            console.log('No token provided');
+            res.send({ authenticated });
         }
     } catch (err) {
         console.error(err.message);
@@ -60,65 +57,58 @@ app.get('/auth/authenticate', async(req, res) => {
 });
 
 // signup a user
-app.post('/auth/signup', async(req, res) => {
+app.post('/auth/signup', async (req, res) => {
     try {
         console.log("a signup request has arrived");
-        //console.log(req.body);
         const { email, password } = req.body;
 
-        const salt = await bcrypt.genSalt(); //  generates the salt, i.e., a random string
-        const bcryptPassword = await bcrypt.hash(password, salt) // hash the password and the salt 
-        const authUser = await pool.query( // insert the user and the hashed password into the database
+        // Check if the email is already in use
+        const emailCheck = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+        if (emailCheck.rows.length > 0) {
+            return res.status(400).json({ error: "Email already in use!" });
+        }
+
+        const salt = await bcrypt.genSalt();
+        const bcryptPassword = await bcrypt.hash(password, salt);
+        
+        const authUser = await pool.query(
             "INSERT INTO users(email, password) values ($1, $2) RETURNING*", [email, bcryptPassword]
         );
-        console.log(authUser.rows[0].id);
-        const token = await generateJWT(authUser.rows[0].id); // generates a JWT by taking the user id as an input (payload)
-        //console.log(token);
-        //res.cookie("isAuthorized", true, { maxAge: 1000 * 60, httpOnly: true });
-        //res.cookie('jwt', token, { maxAge: 6000000, httpOnly: true });
-        res
-            .status(201)
+
+        const token = generateJWT(authUser.rows[0].id);
+        res.status(201)
             .cookie('jwt', token, { maxAge: 6000000, httpOnly: true })
-            .json({ user_id: authUser.rows[0].id })
-            .send;
+            .json({ user_id: authUser.rows[0].id });
     } catch (err) {
-        console.error(err.message);
-        res.status(400).send(err.message);
+        console.error("Signup error: ", err.message);  // Log the error details
+        res.status(400).json({ error: "Signup failed! " + err.message });  // Send error message back
     }
 });
 
-app.post('/auth/login', async(req, res) => {
+
+//login user
+app.post('/auth/login', async (req, res) => {
     try {
         console.log("a login request has arrived");
         const { email, password } = req.body;
         const user = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+
         if (user.rows.length === 0) return res.status(401).json({ error: "User is not registered" });
 
-        /* 
-        To authenticate users, you will need to compare the password they provide with the one in the database. 
-        bcrypt.compare() accepts the plain text password and the hash that you stored, along with a callback function. 
-        That callback supplies an object containing any errors that occurred, and the overall result from the comparison. 
-        If the password matches the hash, the result is true.
-
-        bcrypt.compare method takes the first argument as a plain text and the second argument as a hash password. 
-        If both are equal then it returns true else returns false.
-        */
-
-        //Checking if the password is correct
         const validPassword = await bcrypt.compare(password, user.rows[0].password);
-        //console.log("validPassword:" + validPassword);
         if (!validPassword) return res.status(401).json({ error: "Incorrect password" });
 
-        const token = await generateJWT(user.rows[0].id);
-        res
-            .status(201)
+        const token = generateJWT(user.rows[0].id);
+        res.status(201)
             .cookie('jwt', token, { maxAge: 6000000, httpOnly: true })
-            .json({ user_id: user.rows[0].id })
-            .send;
+            .json({ user_id: user.rows[0].id });
     } catch (error) {
-        res.status(401).json({ error: error.message });
+        console.error("Login error: ", error.message);
+        res.status(401).json({ error: error.message });  // Send the detailed error message
     }
 });
+
+
 
 app.get('/posts', async(req, res) => {
     try {
