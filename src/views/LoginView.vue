@@ -51,23 +51,19 @@ export default {
   methods: {
     // Handle login submission
     submitForm() {
-      fetch("http://localhost:3000/login", {
+      fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include',
         body: JSON.stringify(this.form),
       })
-        .then((response) => {
-          if (!response.ok) throw new Error("Login failed!");
-          return response.json();
-        })
         .then((data) => {
-          alert("Login successful: " + data.message);
           console.log("Login success:", data);
           // TODO: Add redirect or store auth token here
+          this.$router.push("/");
         })
         .catch((err) => {
           console.error("Error:", err);
-          alert("Login failed: " + err.message);
         });
     },
     // Navigate to the signup page

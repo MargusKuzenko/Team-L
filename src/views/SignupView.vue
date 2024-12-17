@@ -94,22 +94,18 @@ export default {
       this.submitted = true;
 
       if (this.isPasswordValid) {
-        fetch("http://localhost:3000/signup", {
+        fetch("http://localhost:3000/auth/signup", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: 'include',
           body: JSON.stringify(this.form),
         })
-          .then((response) => {
-            if (!response.ok) throw new Error("Signup failed!");
-            return response.json();
-          })
           .then((data) => {
-            alert("Signup successful!");
             console.log("Success:", data);
+            this.$router.push("/");
           })
           .catch((err) => {
             console.error(err);
-            alert("Signup failed: " + err.message);
           });
       }
     },
