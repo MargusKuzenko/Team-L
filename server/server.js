@@ -28,23 +28,18 @@ app.listen(port, () => {
     console.log("Server is listening to port " + port)
 });
 
-const checkAuth = async (token) => {
+const checkAuth = (token) => {
     try {
-        if (token) { 
-            await jwt.verify(token, secret, (err) => { 
-                if (err) {
-                    return false;
-                } else {
-                    return true;
-                }
-            });
+        if (token) {
+            jwt.verify(token, secret); // Throws an error if invalid
+            return true; // If no error, token is valid
         } else {
-            return false;
+            return false; // No token provided
         }
     } catch (err) {
-        throw new Error(err.message)
+        return false; // Invalid token
     }
-}
+};
 
 // is used to check whether a user is authinticated
 app.get('/auth/authenticate', async (req, res) => {
