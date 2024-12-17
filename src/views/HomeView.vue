@@ -6,8 +6,8 @@
       <Post v-for="post in posts" :post="post" @click="(e) => changePost(post, e)"/>
   </div>
   <div class="container">
-    <button v-if = "authResult" @click="AddPost">Add Post</button>
-    <button v-if = "authResult" @click="DeleteAll">Delete All</button>
+    <button v-if = "authResult" @click="AddPost" style="margin-left: 0; margin-right: 0;">Add Post</button>
+    <button v-if = "authResult" @click="DeleteAll" style="margin-left: 0; margin-right: 0;">Delete All</button>
   </div>
 </template>
 
@@ -114,8 +114,8 @@ export default {
   }
   .container {
     display: flex;
-    justify-content: center; /* Centers the buttons horizontally */
-    gap: 10px; /* Adds space between buttons */
-    margin-top: 20px; /* Adds some space above the container */
+    justify-content: center;
+    gap: 100px;
+    margin-top: 20px;
 }
 </style>
